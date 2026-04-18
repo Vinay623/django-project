@@ -53,3 +53,30 @@ Used ModelForms for automatic validation.
 
 ### Code reference
 enrolment/forms.py
+## ADR 4: Django Design Philosophy
+
+Status: Accepted
+
+### Context
+Django follows "Don't Repeat Yourself (DRY)" and "Convention over Configuration".
+
+### Decision
+We used ModelForms and class-based views to reduce repeated code.
+
+### Consequences
+Cleaner and maintainable codebase.
+## ADR 5: Use QuerySet API
+
+Status: Accepted
+
+### Context
+Need to retrieve data efficiently.
+
+### Decision
+Used Django QuerySet API for filtering and retrieving data.
+
+### Code reference
+enrolment/views.py
+
+### Consequences
+Efficient database interaction.
