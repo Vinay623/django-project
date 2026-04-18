@@ -1,82 +1,164 @@
-# Architecture Decision Records
-
-## ADR 1: Use Enrolment Model for Relationship
+ADR 1: Use Enrolment Model for Student–Course Relationship
 
 Status: Accepted
 
-### Context
-We needed to store student-course relationships with semester and year.
+Context
 
-### Alternatives considered
+The system needs to store the relationship between students and courses. A student can enrol in many courses, and a course can have many students. The project also requires extra information for each enrolment, such as semester and year.
+
+Alternatives Considered
+
 1. ManyToManyField
-   - Simple but no extra fields
-2. Separate model
-   - Supports extra fields
 
-### Decision
-We used a separate Enrolment model.
+Simple to implement
+Suitable for basic many-to-many relationships
+Not suitable when extra fields like semester and year are required
 
-### Code reference
+2. Separate Enrolment Model
+
+Supports extra attributes
+Makes the relationship explicit
+Easier to extend later
+Decision
+
+We decided to use a separate Enrolment model to represent the many-to-many relationship between Student and Course.
+
+Code Reference
+
 enrolment/models.py
 
-### Consequences
-More flexible and scalable design
+Consequences
 
+This design improves flexibility and scalability. It allows the system to store additional enrolment details and follows object-oriented design more clearly.
 
-## ADR 2: Use Class-Based Views
+ADR 2: Use Class-Based Views
 
 Status: Accepted
 
-### Context
-We needed to handle display and creation of records.
+Context
 
-### Alternatives
-1. Function-based views
-2. Class-based views
+The application needs views for displaying records and creating new records. The design should be reusable, organised, and aligned with Django best practices.
 
-### Decision
-Used class-based views for reusable code.
+Alternatives Considered
 
-### Code reference
+1. Function-Based Views
+
+Easy for small applications
+More direct and simple for beginners
+Can become repetitive as the project grows
+
+2. Class-Based Views
+
+Reusable and structured
+Reduce repeated code
+Easier to extend for common tasks such as list and create operations
+Decision
+
+We decided to use class-based views because they provide better code reuse and cleaner structure for handling repeated patterns in the application.
+
+Code Reference
+
 enrolment/views.py
 
+Consequences
 
-## ADR 3: Use ModelForms
+This improves maintainability and supports Django’s reusable design style. It also helps organise logic more clearly.
+
+ADR 3: Use ModelForms for User Input
 
 Status: Accepted
 
-### Context
-Forms needed for user input.
+Context
 
-### Decision
-Used ModelForms for automatic validation.
+The system requires forms to create and validate student, course, and enrolment data. Manual validation would increase code repetition and the chance of errors.
 
-### Code reference
+Alternatives Considered
+
+1. Manual HTML Forms
+
+Full control over form handling
+Requires custom validation and more repeated code
+
+2. Django ModelForms
+
+Automatically connects forms to models
+Provides built-in validation
+Reduces development time
+Decision
+
+We decided to use Django ModelForms for handling user input and validation.
+
+Code Reference
+
 enrolment/forms.py
-## ADR 4: Django Design Philosophy
+
+Consequences
+
+This reduces boilerplate code, improves reliability, and supports Django’s DRY principle.
+
+ADR 4: Apply Django Design Philosophy (DRY and Separation of Concerns)
 
 Status: Accepted
 
-### Context
-Django follows "Don't Repeat Yourself (DRY)" and "Convention over Configuration".
+Context
 
-### Decision
-We used ModelForms and class-based views to reduce repeated code.
+The project should follow Django design principles to keep the code organised, readable, and maintainable.
 
-### Consequences
-Cleaner and maintainable codebase.
-## ADR 5: Use QuerySet API
+Alternatives Considered
+
+1. Mixed logic across templates, views, and forms
+
+Faster initially
+Harder to maintain and debug
+
+2. Clear separation using models, forms, views, and templates
+
+Better organisation
+Easier to test and extend
+Matches Django philosophy
+Decision
+
+We decided to separate responsibilities across models, forms, views, and templates, while following the DRY principle to avoid unnecessary repetition.
+
+Code Reference
+
+enrolment/models.py
+enrolment/views.py
+enrolment/forms.py
+
+Consequences
+
+This creates a cleaner and more maintainable codebase. It also demonstrates good software design practice.
+
+ADR 5: Use Django QuerySet API for Data Access
 
 Status: Accepted
 
-### Context
-Need to retrieve data efficiently.
+Context
 
-### Decision
-Used Django QuerySet API for filtering and retrieving data.
+The application needs a reliable and readable way to retrieve, filter, and display database records.
 
-### Code reference
+Alternatives Considered
+
+1. Raw SQL
+
+More control
+Harder to maintain
+Less readable for this project
+
+2. Django QuerySet API
+
+Safer and more readable
+Integrated with Django ORM
+Easier to maintain and extend
+Decision
+
+We decided to use Django’s QuerySet API for retrieving and filtering application data.
+
+Code Reference
+
 enrolment/views.py
 
-### Consequences
-Efficient database interaction.
+Consequences
+
+This improves readability, reduces database handling complexity, and supports efficient interaction with the database.
