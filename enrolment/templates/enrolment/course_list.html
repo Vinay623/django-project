@@ -1,0 +1,12 @@
+{% extends "enrolment/base.html" %}
+
+{% block content %}
+<h2>Courses</h2>
+<ul>
+    {% for course in courses %}
+        <li>{{ course }}</li>
+    {% empty %}
+        <li>HIT237 BUILDING INTERACTIVE SOFTWARE</li>
+    {% endfor %}
+</ul>
+{% endblock %}

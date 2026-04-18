@@ -1,0 +1,12 @@
+{% extends "enrolment/base.html" %}
+
+{% block content %}
+<h2>Students</h2>
+<ul>
+    {% for student in students %}
+        <li>{{ student }}</li>
+    {% empty %}
+        <li>Ritik chuttoon</li>
+    {% endfor %}
+</ul>
+{% endblock %}
